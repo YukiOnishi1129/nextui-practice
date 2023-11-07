@@ -1,15 +1,13 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
-import { NavbarItem, Link, Button } from "@nextui-org/react";
+import { NavbarItem, Link, Button, Spinner } from "@nextui-org/react";
 
 export const HeaderMenu: React.FC = () => {
   // Client sideのセッションデータの取得
   const { status } = useSession();
 
-  console.log(status);
-
-  if (status === "loading") return <div>ローディング</div>;
+  if (status === "loading") return <Spinner />;
 
   return (
     <>
@@ -22,13 +20,19 @@ export const HeaderMenu: React.FC = () => {
             <Link href="/profile">Profile</Link>
           </NavbarItem>
           <NavbarItem>
-            <Button onClick={() => signOut()} variant="ghost">
+            <Button
+              onClick={() => signOut({ callbackUrl: "/login" })}
+              variant="ghost"
+            >
               Sign out
             </Button>
           </NavbarItem>
         </>
       ) : (
         <>
+          <NavbarItem>
+            <Link href="/">Top</Link>
+          </NavbarItem>
           <NavbarItem>
             <Link href="/login">Login</Link>
           </NavbarItem>
