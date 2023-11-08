@@ -1,40 +1,40 @@
-"use client";
+import { getServerSession } from "next-auth/next";
+import { NavbarItem, Link, Button } from "@nextui-org/react";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { SignOutButton } from "@/features/auth/components/SignOutButton";
+import {
+  AUTHENTICATED_NAVIGATION_LINK,
+  UN_AUTHENTICATED_NAVIGATION_LINK,
+} from "@/constants/navigation";
 
-import { useSession, signOut } from "next-auth/react";
-import { NavbarItem, Link, Button, Spinner } from "@nextui-org/react";
-
-export const HeaderMenu: React.FC = () => {
+export const HeaderMenu: React.FC = async () => {
   // Client sideのセッションデータの取得
-  const { status } = useSession();
+  // const { status } = useSession();
+  const session = await getServerSession(authOptions);
 
-  if (status === "loading") return <Spinner />;
+  // if (status === "loading") return <Spinner />;
 
   return (
     <>
-      {status === "authenticated" ? (
+      {session ? (
         <>
           <NavbarItem>
-            <Link href="/">Top</Link>
+            <Link href={UN_AUTHENTICATED_NAVIGATION_LINK.TOP}>Top</Link>
           </NavbarItem>
           <NavbarItem>
-            <Link href="/profile">Profile</Link>
+            <Link href={AUTHENTICATED_NAVIGATION_LINK.PROFILE}>Profile</Link>
           </NavbarItem>
           <NavbarItem>
-            <Button
-              onClick={() => signOut({ callbackUrl: "/login" })}
-              variant="ghost"
-            >
-              Sign out
-            </Button>
+            <SignOutButton />
           </NavbarItem>
         </>
       ) : (
         <>
           <NavbarItem>
-            <Link href="/">Top</Link>
+            <Link href={UN_AUTHENTICATED_NAVIGATION_LINK.TOP}>Top</Link>
           </NavbarItem>
           <NavbarItem>
-            <Link href="/login">Login</Link>
+            <Link href={UN_AUTHENTICATED_NAVIGATION_LINK.LOGIN}>Login</Link>
           </NavbarItem>
           <NavbarItem>
             <Button as={Link} color="primary" href="#" variant="shadow">
