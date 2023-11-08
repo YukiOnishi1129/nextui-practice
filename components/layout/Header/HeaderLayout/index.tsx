@@ -6,7 +6,9 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarMenuToggle,
+  Link,
 } from "@nextui-org/react";
+import { UN_AUTHENTICATED_NAVIGATION_LINK } from "@/constants/navigation";
 
 export const HeaderLayout: React.FC<{
   children: React.ReactNode;
@@ -21,7 +23,9 @@ export const HeaderLayout: React.FC<{
           //   className="sm:hidden"
         />
         <NavbarBrand>
-          <h1 className="font-bold text-inherit">SAMPLE</h1>
+          <Link href={UN_AUTHENTICATED_NAVIGATION_LINK.TOP}>
+            <h1 className="font-bold text-inherit">SAMPLE</h1>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
       {children}

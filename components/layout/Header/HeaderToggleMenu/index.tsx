@@ -1,39 +1,37 @@
+"use client";
+
 import { NavbarMenu, NavbarMenuItem, Link } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import {
+  UN_AUTHENTICATED_NAVIGATION_LINK,
+  AUTHENTICATED_NAVIGATION_LINK,
+} from "@/constants/navigation";
 
-const menuItems = [
-  "Profile",
-  "Dashboard",
-  "Activity",
-  "Analytics",
-  "System",
-  "Deployments",
-  "My Settings",
-  "Team Settings",
-  "Help & Feedback",
-  "Log Out",
-];
+export const HeaderToggleMenu = () => {
+  const { status } = useSession();
 
-export const HeaderToggleMenu: React.FC = () => {
   return (
     <NavbarMenu>
-      {menuItems.map((item, index) => (
-        <NavbarMenuItem key={`${item}-${index}`}>
+      <NavbarMenuItem>
+        <Link
+          className="w-full"
+          size="lg"
+          href={UN_AUTHENTICATED_NAVIGATION_LINK.TOP}
+        >
+          Top
+        </Link>
+      </NavbarMenuItem>
+      {status === "authenticated" && (
+        <NavbarMenuItem>
           <Link
-            color={
-              index === 2
-                ? "primary"
-                : index === menuItems.length - 1
-                ? "danger"
-                : "foreground"
-            }
             className="w-full"
-            href="#"
             size="lg"
+            href={AUTHENTICATED_NAVIGATION_LINK.PROFILE}
           >
-            {item}
+            Profile
           </Link>
         </NavbarMenuItem>
-      ))}
+      )}
     </NavbarMenu>
   );
 };
