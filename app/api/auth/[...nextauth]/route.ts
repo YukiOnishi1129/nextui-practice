@@ -20,7 +20,16 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       console.log(user);
+      // ここでDB照合する
+      // usersテーブルにないならinsert(会員登録)
+      // usersテーブルにあったらそのままtrue
       return true;
+    },
+  },
+  events: {
+    signOut(message) {
+      console.log("ログアウト");
+      console.log(message);
     },
   },
 };
